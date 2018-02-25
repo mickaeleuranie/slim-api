@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="<?=$this->e($this->baseUrl('assets/') . 'css/lib/swagger-ui.css')?>" />
   <link rel="stylesheet" type="text/css" href="<?=$this->e($this->baseUrl('assets/') . 'css/docs.css')?>" sizes="32x32" />
-  <link rel="icon" type="image/png" href="<?=$this->e($this->baseUrl('assets/') . 'img/favicon.png')?>" />
+  <link rel="icon" type="image/png" href="<?=$this->e($this->baseUrl('assets/') . 'img/favicon-32x32.png')?>" />
 </head>
 
 <body>
@@ -22,7 +22,6 @@
       </div>
     </div>
   </div>
-  <img src="<?=$this->e($this->baseUrl('assets/') . 'img/logo-doc.png')?>" class="logo" />
 
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position:absolute;width:0;height:0">
   <defs>
