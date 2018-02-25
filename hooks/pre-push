@@ -1,0 +1,60 @@
+#! /bin/bash
+#
+# This script checks if all added, copied, modified or renamed files are valid against the PSR2 coding standards
+# and if there are no php, javascript or css errors
+# dependencies:
+#   codesniffer (http://pear.php.net/package/PHP_CodeSniffer/redirected)
+#
+# @version  1.0.0
+# @author Mickaël Euranie <contact@mickaeleuranie.com>
+# @see https://github.com/WouterSioen/pre-commit/blob/master/pre-commit
+
+verbose=0
+
+exec 3>&1
+exec 4>&2
+
+if ((verbose)); then
+  echo "verbose=1"
+else
+  exec 1>/dev/null
+  exec 2>/dev/null
+fi
+
+# create empty errors array
+declare errors
+declare psrError
+
+echo '##########################' 1>&3 2>&4
+echo '# Running pre-push tests #' 1>&3 2>&4
+echo '##########################' 1>&3 2>&4
+
+# check if code is PSR-2 complient
+echo 'Check that code is PSR-2 complient' 1>&3 2>&4
+composer phpcs
+if [ $? -ne 0 ]; then
+    psrError="Code is not PSR-2 complient"
+
+    errors=$psrError
+fi
+
+# if we have errors, exit with 1
+if [ -n "$errors" ]; then
+    ##############
+    # PSR ERRORS #
+    ##############
+    if [ 0 -ne "${#psrError}" ]; then
+        echo "${RED}PSR ERRORS (${#psrError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${psrError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    echo "You need to fix listed errors before push" 1>&3 2>&4
+    exit 1
+fi
+
+echo 'No errors found!' 1>&3 2>&4

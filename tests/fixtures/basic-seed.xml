@@ -1,0 +1,156 @@
+<?xml version="1.0" ?>
+<dataset>
+
+    <!--
+        USERS
+    -->
+    <user id="1"
+        username="slim-api-test-admin"
+        password_hash="$2y$13$Xnp.IcPUI/.BFAhg29yRWOEU/JdJGV/T18yVubdYLl4ZgnlkvqBzO"
+        password_reset_token="0WC-x_z1TFTDrLexqzJgkjKYSG-xSV6p_1497903895"
+        autologin_token="n5SVnJeemX7O3IiUZrZkyQOmJEnosVkC_1508837485"
+        email="test-admin@example.com"
+        activkey="4819f52f495437e3f071d73159ac4d96"
+        status="1"
+        ip="0.0.0.0"
+        created_at="2017-06-19 22:24:55"
+        updated_at="2017-10-24 11:31:25"
+        confirmation="0"
+        auth_key="jAYhhlTrOYTsh6LcrBr1pgQE2RTaXhHW"
+        locale="fr"
+    />
+    <user id="2"
+        username="slim-api-test-user"
+        password_hash="$2y$13$eNRseXK9DabQ1W1/53.NKepLLEszK2JLoAqE4STwgooln98A2rEp."
+        password_reset_token="WuzxBtBz9mxwR_Ri0wVvmaG-3zzQgvfd_1497903895"
+        autologin_token="eZv4z52MSu67M75ztuB2988XVlm87n29_1508837485"
+        email="test-user@example.com"
+        activkey="1c87f346eaff129a9fca8d53c1b0aace"
+        status="1"
+        ip="0.0.0.0"
+        created_at="2017-06-19 22:24:55"
+        updated_at="2017-10-24 11:31:25"
+        confirmation="0"
+        auth_key="6xWOyhkuyEcGKWUxXIAdPIKN3sBz-Uo9"
+        locale="fr"
+    />
+
+    <!--
+        AUTH_ITEM
+    -->
+    <auth_item
+        name="admin"
+        type="1"
+        created_at="1476787607"
+        updated_at="1476787607"
+    />
+    <auth_item
+        name="blogger"
+        type="1"
+        created_at="1476787607"
+        updated_at="1476787607"
+    />
+    <auth_item
+        name="cspi"
+        type="1"
+        created_at="1477388266"
+        updated_at="1477388266"
+    />
+    <auth_item
+        name="nutritionist"
+        type="1"
+        created_at="1476787607"
+        updated_at="1476787607"
+    />
+    <auth_item
+        name="user"
+        type="1"
+        created_at="1476787607"
+        updated_at="1476787607"
+    />
+    <auth_item
+        name="widget"
+        type="1"
+        created_at="1476787607"
+        updated_at="1476787607"
+    />
+
+    <!--
+        AUTH_ASSIGNMENT
+    -->
+    <auth_assignment
+        item_name="admin"
+        user_id="1"
+    />
+
+    <auth_assignment
+        item_name="user"
+        user_id="1"
+    />
+
+    <auth_assignment
+        item_name="user"
+        user_id="2"
+    />
+
+    <!--
+        OAUTH_CLIENTS
+    -->
+    <oauth_clients
+        client_id="test-admin@example.com"
+        client_secret="XXXXXXXXXXXXXXXX"
+        redirect_uri="https://example.com"
+        grant_types="client_credentials authorization_code password implicit"
+        scope="api"
+        user_id="1"
+    />
+
+    <oauth_clients
+        client_id="test-user@example.com"
+        client_secret="XXXXXXXXXXXXXXXX"
+        redirect_uri="https://example.com"
+        grant_types="client_credentials authorization_code password implicit"
+        scope="api"
+        user_id="2"
+    />
+
+    <!--
+        OAUTH_ACCESS_TOKENS
+    -->
+    <oauth_access_tokens
+        access_token="tokenadmin"
+        client_id="test-admin@example.com"
+        user_id="1"
+        expires="2025-12-12 23:59:59"
+        scope="api"
+    />
+
+    <oauth_access_tokens
+        access_token="tokenuser"
+        client_id="test-user@example.com"
+        user_id="2"
+        expires="2025-12-12 23:59:59"
+        scope="api"
+    />
+
+    <!--
+        API_KEY
+    -->
+    <api_key id="1"
+        slug="test"
+        key="apiTokenOnlyForTestPurpose"
+    />
+
+    <!--
+        USER_API_KEY
+    -->
+    <user_api_key id="1"
+        user_id="1"
+        api_key_id="1"
+    />
+    <user_api_key id="2"
+        user_id="2"
+        api_key_id="1"
+    />
+
+</dataset>

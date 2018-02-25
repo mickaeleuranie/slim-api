@@ -1,0 +1,28 @@
+runtime: php
+env: flex
+
+runtime_config:
+  document_root: public
+
+handlers:
+  - url: /loaderio-9b62bbb3802cd013a653802ba8b225df\.txt
+    static_files: loaderio-9b62bbb3802cd013a653802ba8b225df.txt
+    upload: loaderio-9b62bbb3802cd013a653802ba8b225df\.txt
+
+  - url: /.*
+    script: public/index.php
+
+#[START cloudsql_settings]
+beta_settings:
+   cloud_sql_instances: "avocadoo-40820:europe-west3:avocadoo-api"
+#[END cloudsql_settings]
+
+# Do not deploy ignored files tests
+skip_files:
+  - ^(.*/)?#.*#$
+  - ^(.*/)?.*~$
+  - ^(.*/)?.*\.py[co]$
+  - ^(.*/)?.*/RCS/.*$
+  - ^(.*/)?\..*$
+  - .env
+  - ./src/config/common-local.php

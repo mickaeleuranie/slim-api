@@ -1,0 +1,117 @@
+version: 2
+jobs:
+  build-job:
+    working_directory: ~/api
+    docker:
+      - image: php:7.1-apache
+      - image: circleci/mysql:5.6
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+          - MYSQL_DATABASE=${MYSQL_DB_NAME_TEST}
+          - MYSQL_HOST=127.0.0.1
+          - MYSQL_ROOT_HOST=%
+          - MYSQL_USER=root
+    steps:
+      # - run:
+      #     name: Add needed package to system
+      #     command: |
+      #       apt-get update
+      #       apt-get install -y python
+      #       apt-get -y install wget apt-transport-https lsb-release ca-certificates
+      #       wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+      #       echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+      - run:
+          name: Install system packages
+          command: |
+            apt-get update
+            apt-get -y install python zip unzip git mysql-client libxslt1-dev redis-server
+      - run:
+          name: Install PHP extensions
+          command: |
+            apt-get update
+            docker-php-ext-install pdo_mysql xsl
+            pecl channel-update pecl.php.net
+            pecl install xdebug
+            docker-php-ext-enable xdebug
+            pecl install redis
+            docker-php-ext-enable redis
+      - run:
+          name: Install Composer
+          command: |
+            curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - checkout
+      - run:
+          name: Display PHP information
+          command: |
+            php -v
+            composer --version
+      - run:
+          name: Install project
+          command: |
+            ./install.sh --dbname=${MYSQL_DB_NAME_TEST} --dbuser=${MYSQL_DB_USER} --dbpassword=${MYSQL_DB_PASSWORD} -y
+      - run:
+          name: Run CS tests
+          command: composer phpcs
+      - run:
+          name: Run Unit tests
+          command: composer phpunit
+
+  # uncomment to deploy on GAE
+  # deploy-job:
+  #   working_directory: ~/api
+  #   docker:
+  #     - image: php:7.1-apache
+  #   steps:
+  #     - run:
+  #         name: Add needed package to system
+  #         command: |
+  #           apt-get update
+  #           apt-get install -y python
+  #     - run:
+  #         name: Install Composer
+  #         command: |
+  #           curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  #     - checkout
+  #     - run:
+  #         name: Download and install Google Cloud SDK
+  #         command: |
+  #           curl -o $HOME/google-cloud-sdk-183.0.0-linux-x86_64.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-183.0.0-linux-x86_64.tar.gz?hl=sr
+  #           tar -xzvf $HOME/google-cloud-sdk-183.0.0-linux-x86_64.tar.gz
+  #           mv google-cloud-sdk $HOME
+  #           $HOME/google-cloud-sdk/install.sh --rc-path=/root/.bashrc
+  #     - run:
+  #         name: Retrieve our secrets from the CircleCI environment
+  #         command: |
+  #           echo $CLIENT_SECRET | base64 --decode > ${HOME}/client-secret.json
+  #     - run:
+  #         name: Make sure gcloud is up to date
+  #         command: |
+  #           $HOME/google-cloud-sdk/bin/gcloud --quiet components update app
+  #     - run:
+  #         name: Authenticate gcloud
+  #         command: |
+  #           $HOME/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
+  #           $HOME/google-cloud-sdk/bin/gcloud config set project $GCLOUD_PROJECT
+  #     - run:
+  #         name: Install project
+  #         command: |
+  #           ./install.sh --dbname=${MYSQL_DB_NAME_TEST} --dbuser=${MYSQL_DB_USER} --dbpassword=${MYSQL_DB_PASSWORD} -y
+  #     # deploy to AppEngine
+  #     - run:
+  #         name: Deploy to GAE
+  #         command: |
+  #           $HOME/google-cloud-sdk/bin/gcloud -q app deploy app.yaml --promote --version=1
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-job
+      # uncomment to deploy on GAE
+      # - deploy-job:
+      #     requires:
+      #       - build-job
+      #     # uncomment to deploy only if push on master branch
+      #     filters:
+      #       branches:
+      #         only: master

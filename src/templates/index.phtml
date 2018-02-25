@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim API</title>
+        <link href='//fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Roboto', sans-serif;
+                font-size: 100px;
+                font-weight: 100;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Slim API</h1>
+        {% if version %}
+            <div>API <small>v{{ version }}</small></div>
+        {% else %}
+            <div>API</div>
+        {% endif %}
+        <p>
+            <a href="https://github.com/mickaeleuranie/slim-api" target="_blank">Fork me</a><br />
+            <a href="https://github.com/mickaeleuranie/slim-api/blob/master/README.md" target="_blank">Documentation</a><br />
+            <a href="https://github.com/mickaeleuranie/slim-api/issues" target="_blank">Report an issue</a>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,8 @@
+.env
+vendor/
+.vagrant/
+.phplint-cache
+phpunit.xml
+coverage.xml
+cloud_sql_proxy
+swagger.json

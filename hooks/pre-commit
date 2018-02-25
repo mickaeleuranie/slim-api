@@ -1,0 +1,272 @@
+#! /bin/bash
+#
+# This script checks if all added, copied, modified or renamed files are valid against the PSR2 coding standards
+# and if there are no php, javascript or css errors
+# dependencies:
+#   codesniffer (http://pear.php.net/package/PHP_CodeSniffer/redirected)
+#   jshint https://github.com/jshint/jshint/
+#   CSS lint (https://github.com/stubbornella/csslint/wiki/Command-line-interface)
+#   SCSS lint (https://github.com/causes/scss-lint)
+#
+# @version  1.2.0
+# @author Mickaël Euranie <contact@mickaeleuranie.com>
+# @see https://github.com/WouterSioen/pre-commit/blob/master/pre-commit
+
+verbose=0
+
+exec 3>&1
+exec 4>&2
+
+if ((verbose)); then
+  echo "verbose=1"
+else
+  exec 1>/dev/null
+  exec 2>/dev/null
+fi
+
+# create empty errors array
+declare -a errors
+declare -a parseError
+declare -a fatalError
+declare -a standardsError
+declare -a jsError
+declare -a cssError
+declare -a psrError
+
+# set root of project
+root=$(git rev-parse --show-toplevel)
+
+# set some colors
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+BRIGHT=$(tput bold)
+NORMAL=$(tput sgr0)
+BLINK=$(tput blink)
+REVERSE=$(tput smso)
+UNDERLINE=$(tput smul)
+
+# Check if we're on a semi-secret empty tree
+if git rev-parse --verify HEAD
+then
+    against=HEAD
+else
+    # Initial commit: diff against an empty tree object
+    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+echo '############################' 1>&3 2>&4
+echo '# Running pre-commit tests #' 1>&3 2>&4
+echo '############################' 1>&3 2>&4
+
+# fetch all changed php files and validate them
+echo 'Check PHP files syntax' 1>&3 2>&4
+files=$(git diff-index --name-only --diff-filter=ACMR $against | grep '\.php$')
+if [ -n "$files" ]; then
+
+    # echo 1>&3 2>&4
+    # echo 'Checking PHP Files' 1>&3 2>&4
+    # echo '------------------' 1>&3 2>&4
+    # echo 1>&3 2>&4
+
+    for file in $files; do
+
+        file="$root/$file"
+
+        # first check if they are valid php files
+        # check parse errors
+        parse=$(php -l "$file" | grep "Parse error")
+
+        if [ $? == 0 ]; then
+            parseError=("${parseError[@]}" "$parse")
+        fi
+
+        # check fatal errors
+        fatal=$(php -l "$file" | grep 'PHP Fatal error')
+
+        if [ $? == 0 ]; then
+            fatalError=("${fatalError[@]}" "$fatal")
+        fi
+
+        # # check standards
+        standards=$(php -l "$file" | grep 'Strict standards')
+
+        if [ $? == 0 ]; then
+            standardsError=("${standardsError[@]}" "$standards")
+        fi
+
+        # get error message
+        output="$parse$fatal$standards"
+
+        # if it did contain errors, we have output
+        if [ -n "$parse" ] || [ -n "$fatal" ] || [ -n "$standards" ]; then
+            # echo "$file contains php syntax errors" 1>&3 2>&4
+            errors=("${errors[@]}" "$output")
+        fi
+
+       #  # checks if the phpcs output contains '| ERROR |'
+       #  # @TODO
+       # output=$(phpcs --standard=PSR2 --extensions=php --encoding=utf8 --report=full $file | grep '| ERROR |')
+
+       # echo "TOTEM" 1>&3 2>&4
+       # echo $? 1>&3 2>&4
+
+       #  # if it did contain errors, we have output
+       # if [ -n "$output" ]; then
+       #     echo "$file fails coding standards" 1>&3 2>&4
+       #     # phpcs --standard=PSR2 --extensions=php --encoding=utf8 --report=full $file
+       #     errors=("${errors[@]}" "$output")
+       # fi
+    done
+fi
+
+# fetch all changed js files and validate them
+echo 'Check Javascript files syntax' 1>&3 2>&4
+files=$(git diff-index --name-only --diff-filter=ACMR $against | grep '\.js$')
+if [ -n "$files" ]; then
+
+    # echo 1>&3 2>&4
+    # echo 'Checking Javascript Files' 1>&3 2>&4
+    # echo '------------------' 1>&3 2>&4
+    # echo 1>&3 2>&4
+
+    for file in $files; do
+
+        file="$root/$file"
+
+        output=$(jshint $file)
+
+        if [ $? -ne 0 ]; then
+            jsError=("${jsError[@]}" "$output")
+        fi
+
+        # if our output is not empty, there were errors
+        if [ -n "$output" ]; then
+            echo "$file contains javascript syntax errors"
+            echo $output
+            errors=("${errors[@]}" "$output")
+        fi
+    done
+fi
+
+# fetch all changed css files and validate them
+echo 'Check CSS files syntax' 1>&3 2>&4
+files=$(git diff-index --name-only --diff-filter=ACMR $against | grep '\.css$')
+if [ -n "$files" ]; then
+
+    # echo 1>&3 2>&4
+    # echo 'Checking CSS Files' 1>&3 2>&4
+    # echo '------------------' 1>&3 2>&4
+    # echo 1>&3 2>&4
+
+    for file in $files; do
+
+        file="$root/$file"
+
+        output=$(csslint --format=compact $file | grep 'Error -')
+
+        if [ $? == 0 ]; then
+            cssError=("${cssError[@]}" "$output")
+        fi
+
+        # if our output is not empty, there were errors
+        if [ -n "$output" ]; then
+            # echo "$file contains css syntax errors" 1>&3 2>&4
+            errors=("${errors[@]}" "$output")
+        fi
+    done
+fi
+
+# check if code is PSR-2 complient
+echo 'Check that code is PSR-2 complient' 1>&3 2>&4
+composer phpcs
+if [ $? -ne 0 ]; then
+    psrError="Code is not PSR-2 complient"
+
+    errors=$psrError
+fi
+
+# if we have errors, exit with 1
+if [ -n "$errors" ]; then
+    ##############
+    # PHP ERRORS #
+    ##############
+    if [ 0 -ne "${#parseError}" ]; then
+        echo "${RED}PHP PARSE ERRORS (${#parseError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${parseError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    if [ 0 -ne "${#fatalError}" ]; then
+        echo "${RED}FATAL ERRORS (${#fatalError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${fatalError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    if [ 0 -ne "${#standardsError}" ]; then
+        echo "${RED}STANDARDS ERRORS (${#standardsError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${standardsError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    #############
+    # JS ERRORS #
+    #############
+    if [ 0 -ne "${#jsError}" ]; then
+        echo "${RED}JS ERRORS (${#jsError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${jsError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    ##############
+    # CSS ERRORS #
+    ##############
+    if [ 0 -ne "${#cssError}" ]; then
+        echo "${RED}CSS ERRORS (${#cssError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${cssError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    ##############
+    # PSR ERRORS #
+    ##############
+    if [ 0 -ne "${#psrError}" ]; then
+        echo "${RED}CSS ERRORS (${#psrError[@]})${BLACK}" 1>&3 2>&4
+
+        for i in "${psrError[@]}"
+        do
+            echo "$i" 1>&3 2>&4
+        done
+        echo 1>&3 2>&4
+    fi
+
+    echo "You need to fix listed errors before commit" 1>&3 2>&4
+    exit 1
+fi
+
+echo 'No errors found!' 1>&3 2>&4

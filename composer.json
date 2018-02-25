@@ -1,0 +1,92 @@
+{
+    "name": "mickaeleuranie/slim-api",
+    "description": "Slim 3 based API skeleton with PHPUnit, Eloquent ORM, Swagger, and more",
+    "type": "project",
+    "keywords": [
+        "slim",
+        "api",
+        "rest",
+        "skeleton"
+    ],
+    "homepage": "https://github.com/tuupola/slim-api-skeleton",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mickaël Euranie",
+            "email": "contact@mickaeleuranie.com",
+            "homepage": "http://mickaeleuranie.com/",
+            "role": "CTO"
+        }
+    ],
+    "require": {
+        "php": "7.1.*",
+        "ext-redis": "*",
+        "slim/slim": "^3.0",
+        "monolog/monolog": "^1.17",
+        "vlucas/phpdotenv": "^2.0",
+        "symfony/console": "^2.7",
+        "vlucas/spot2": "^2.1",
+        "tuupola/slim-jwt-auth": "3.0.0-rc.2",
+        "tuupola/slim-basic-auth": "3.0.0-rc.2",
+        "league/fractal": "^0.13.0",
+        "paragonie/random_compat": "^1.2",
+        "tuupola/cors-middleware": "^0.5.0",
+        "micheh/psr7-cache": "^0.5.0",
+        "gofabian/negotiation-middleware": "^0.1.2",
+        "tuupola/base62": "^0.8.0",
+        "tuupola/dbal-psr3-logger": "^0.1.0",
+        "crell/api-problem": "^2.0",
+        "firebase/php-jwt": "^4.0",
+        "illuminate/events": "^5.5",
+        "illuminate/database": "^5.5",
+        "slim/pdo": "^1.10",
+        "slim/twig-view": "^2.3",
+        "robmorgan/phinx": "dev-master",
+        "symfony/cache": "^3.3",
+        "predis/predis": "^1.1",
+        "symfony/translation": "^3.3",
+        "akrabat/rka-ip-address-middleware": "^0.5.0",
+        "phpmailer/phpmailer": "^6.0",
+        "illuminate/validation": "^5.5",
+        "illuminate/translation": "^5.5",
+        "projek-xyz/slim-plates": "^0.2.2",
+        "zircote/swagger-php": "^2.0",
+        "elasticsearch/elasticsearch": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "api\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "api\\tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.5",
+        "overtrue/phplint": "^0.2.0",
+        "phpunit/phpunit": "^6.5",
+        "phpunit/dbunit": "^3.0",
+        "theseer/phpdox": "^0.11.0",
+        "phploc/phploc": "^4.0",
+        "codedungeon/phpunit-result-printer": "^0.5.4",
+        "rpkamp/fancy-testdox-printer": "^0.2.5"
+    },
+    "scripts": {
+        "test": "composer phplint && composer phpcs && composer phpunit",
+        "phpcs": "vendor/bin/phpcs --config-set show_warnings 0 && vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=*/cache/*,*/vendor/*,db/migrations,src/helpers/Browser.php . -p && vendor/bin/phpcs --config-set show_warnings 1",
+        "phpcbf": "./vendor/bin/phpcbf",
+        "phplint": "vendor/bin/phplint . --exclude=vendor/",
+        "phpunit": "vendor/bin/phpunit",
+        "watch": "find . -name \"*.php\" -not -path \"./vendor/*\" -o -name \"*.json\" -not -path \"./vendor/*\"| entr -c composer test",
+        "phinx": "vendor/bin/phinx",
+        "phinxtest": "vendor/bin/phinx --configuration=phinx_tests.php",
+        "phpdox": "vendor/bin/phpdox",
+        "phploc": "vendor/bin/phploc --log-csv=build/logs/phploc.csv --log-xml=build/logs/phploc.xml src",
+        "xslt": "xsltproc phpunit.xslt report/resume.xml > report/resume-formatted.html",
+        "runtests": "composer phpunit && composer xslt",
+        "generatedoc": "composer phploc && composer phpdox",
+        "swagger": "vendor/bin/swagger src --output public/swagger.json"
+    }
+}

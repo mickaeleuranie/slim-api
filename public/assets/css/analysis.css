@@ -1,0 +1,619 @@
+@charset "UTF-8";
+.image {
+  width: 250px;
+  float: left;
+  margin: 20px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: small;
+  line-height: 1.4;
+}
+
+p {
+  margin: 0;
+}
+
+/** Nutritionnal facts **/
+
+.performance-facts {
+  border: 1px solid black;
+  margin: 20px;
+  float: left;
+  width: 280px;
+  padding: 0.5rem;
+}
+.performance-facts table {
+  border-collapse: collapse;
+}
+
+.performance-facts__title {
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.performance-facts__header {
+  border-bottom: 10px solid black;
+  padding: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__header p {
+  margin: 0;
+}
+
+.performance-facts__table, .performance-facts__table--small, .performance-facts__table--grid {
+  width: 100%;
+}
+.performance-facts__table thead tr th, .performance-facts__table--small thead tr th, .performance-facts__table--grid thead tr th, .performance-facts__table thead tr td, .performance-facts__table--small thead tr td, .performance-facts__table--grid thead tr td {
+  border: 0;
+}
+.performance-facts__table th, .performance-facts__table--small th, .performance-facts__table--grid th, .performance-facts__table td, .performance-facts__table--small td, .performance-facts__table--grid td {
+  font-weight: normal;
+  text-align: left;
+  padding: 0.25rem 0;
+  border-top: 1px solid black;
+  white-space: nowrap;
+}
+.performance-facts__table td:last-child, .performance-facts__table--small td:last-child, .performance-facts__table--grid td:last-child {
+  text-align: right;
+}
+.performance-facts__table .blank-cell, .performance-facts__table--small .blank-cell, .performance-facts__table--grid .blank-cell {
+  width: 1rem;
+  border-top: 0;
+}
+.performance-facts__table .thick-row th, .performance-facts__table--small .thick-row th, .performance-facts__table--grid .thick-row th, .performance-facts__table .thick-row td, .performance-facts__table--small .thick-row td, .performance-facts__table--grid .thick-row td {
+  border-top-width: 5px;
+}
+
+.small-info {
+  font-size: 0.7rem;
+}
+
+.performance-facts__table--small {
+  border-bottom: 1px solid #999;
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__table--small thead tr {
+  border-bottom: 1px solid black;
+}
+.performance-facts__table--small td:last-child {
+  text-align: left;
+}
+.performance-facts__table--small th, .performance-facts__table--small td {
+  border: 0;
+  padding: 0;
+}
+
+.performance-facts__table--grid {
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__table--grid td:last-child {
+  text-align: left;
+}
+.performance-facts__table--grid td:last-child::before {
+  content: "•";
+  font-weight: bold;
+  margin: 0 0.25rem 0 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.thick-end {
+  border-bottom: 10px solid black;
+}
+
+.thin-end {
+  border-bottom: 1px solid black;
+}
+
+/** Chart **/
+
+.inner-circle.value {
+    font-size: 60px;
+}
+
+.inner-circle.label {
+    font-size: 20px;
+}
+
+/**
+ * View: Pie
+ */
+.chart-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.chart-container.small {
+  width: 360px;
+}
+.chart-container.xsmall {
+  width: 300px;
+}
+.chart-container .avcd-modal-content-container {
+  font-family: 'Roboto', sans-serif;
+  display: table;
+  width: 100%;
+  text-align: center;
+}
+/*.chart-container.small .avcd-modal-content-container {
+  width: 700;
+}*/
+.avcd-modal-content-container h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 1.3em;
+  color: #666;
+  margin: 0;
+}
+.chart-container.small .avcd-modal-content-container h2,
+.chart-container.xsmall .avcd-modal-content-container h2 {
+  font-size: 1em;
+}
+.avcd-cart-macronutrient-mini,
+.avcd-toolbar .avcd-cart-micronutrient-mini {
+    position: relative;
+    display: table-cell;
+}
+
+.avcd-box-pie-wrapper {
+    width: 190px;
+    height: 190px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.avcd-box-pie-wrapper.small {
+    width: 120px;
+    height: 120px;
+}
+.avcd-box-pie-wrapper.xsmall {
+    width: 100px;
+    height: 100px;
+}
+.avcd-box-pie-macronutrient-wrapper {
+    width: 210px;
+    height: 210px;
+}
+.avcd-box-pie-macronutrient-wrapper.small {
+    width: 120px;
+    height: 120px;
+}
+.avcd-box-pie-macronutrient-wrapper.xsmall {
+    width: 100px;
+    height: 100px;
+}
+.avcd-box-pie-wrapper .pie-percent {
+    position: relative;
+    left: 5px;
+}
+.avcd-box-pie-macronutrient-wrapper .avcd-box-pie-wrapper .pie-percent {
+    left: 5px;
+}
+.avcd-box-pie-wrapper svg g.arc path {
+    stroke: #fff;
+    stroke-width: 3px;
+}
+.avcd-box-pie-wrapper .stats-score {
+    font-size: 1.5em;
+    padding-top: 35px;
+}
+svg g.pie-arc-percent path {
+    fill: #999;
+}
+.pie-arc-range path {
+    fill: #025F2C;
+}
+.pie-arc-range text {
+    font-size: .9em;
+    fill: #025F2C;
+    /*fill: rgba(144, 149, 155, 0.6);*/
+}
+.chart-container.small .pie-arc-range text,
+.chart-container.xsmall .pie-arc-range text {
+  font-size: .7em;
+}
+svg g.pie-arc-background path {
+    fill: #F0F0F0;
+}
+.pie-arc-percent.proteins path {
+    fill: #C3D227; /* secondary for application */
+}
+
+.pie-arc-percent.fat path {
+    fill: #025F2C; /* primary for application */
+}
+
+.pie-arc-percent.carbs path {
+    fill: #CFE3DA; /* light-grey for application */
+}
+
+.pie-arc-percent.dot path {
+    fill: #fff;
+}
+
+.pie-arc-percent.sodium path {
+    fill: #6381a3;
+}
+.avcd-box-pie {
+    /*margin-bottom: 20px;*/
+}
+
+.avcd-box-pie .stats-score,
+.avcd-box-hexagon .stats-score,
+.avcd-box-tube .stats-score {
+    color: #666;
+}
+.avcd-box-pie .stats-score .avcd-percentage,
+.avcd-box-hexagon .stats-score .avcd-percentage,
+.avcd-box-tube .stats-score .avcd-percentage {
+    line-height: 1em;
+}
+.avcd-box-pie .stats-score .avcd-percentage {
+    font-size: 1.8em;
+    /*color: #666;*/
+    color: #333;
+    font-weight: 500;
+}
+.avcd-box-pie .stats-score .avcd-percentage.success {
+    /*color: #a6dc7c;*/
+}
+.avcd-box-pie .stats-score .avcd-percentage.warning {
+    /*color: #f0ad4e;*/
+}
+.avcd-box-pie .stats-score .avcd-percentage.danger {
+    /*color: #ff7c68;*/
+}
+.avcd-box-hexagon .stats-score .avcd-percentage,
+.avcd-box-tube .stats-score .avcd-percentage {
+    font-size: 2em;
+}
+.avcd-box-pie .stats-score .avcd-percentage span,
+.avcd-box-hexagon .stats-score .avcd-percentage span,
+.avcd-box-tube .stats-score .avcd-percentage span {
+    font-size: 0.4em;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 0.40em;
+    color: #fff;
+    display: inline;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.chart-container.small .avcd-box-pie .stats-score .avcd-percentage,
+.chart-container.xsmall .avcd-box-pie .stats-score .avcd-percentage {
+  font-weight: 400;
+}
+.avcd-box-pie .stats-score .avcd-percentage span.label-success {
+    background-color: #a6dc7c;
+}
+.avcd-box-pie .stats-score .avcd-percentage span.label-warning {
+    background-color: #f0ad4e;
+}
+.avcd-box-pie .stats-score .avcd-percentage span.label-danger {
+    background-color: #ff7c68;
+}
+.stats-score .avcd-percentage .small,
+.stats-score .avcd-percentage .xsmall {
+    font-size: 0.5em;
+    color: rgba(144, 149, 155, 0.6);
+}
+
+/**
+ * View: Cart > macronutrients mini
+ */
+.avcd-cart-macronutrients-mini {
+    display: table;
+    width: 100%;
+}
+.avcd-cart-macronutrients-mini .avcd-modal-content-half {
+    vertical-align: middle;
+    text-align: center;
+}
+.avcd-cart-macronutrients-mini .avcd-advice-container {
+    margin-bottom: 10px;
+}
+.avcd-macronutrients-stats {
+    color: #666;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 1.3em;
+    font-weight: 300;
+}
+.avcd-cart-macronutrients-mini .avcd-macronutrients-stats {
+    width: auto;
+    left: 32px;
+    top: 54px;
+}
+.avcd-macronutrients-stats label {
+    color: #666;
+    font-size: 13px;
+    font-weight: 300;
+}
+.avcd-macronutrients-stats div {
+    height: 19px;
+}
+.avcd-cart-macronutrient .avcd-macronutrients-stats.stats-score,
+.avcd-cart-fat .avcd-macronutrients-stats.stats-score {
+    width: 200px;
+    text-align: center;
+    /*padding-top: 55px;*/
+    padding-top: 75px;
+    font-size: 15px;
+}
+.avcd-cart-macronutrient-content .avcd-macronutrients-stats.stats-score {
+    font-family: 'Roboto';
+    /*padding-top: 55px;*/
+    padding-top: 75px;
+    font-size: 15px;
+}
+.chart-container.small .avcd-cart-macronutrient-content .avcd-macronutrients-stats.stats-score {
+    padding-top: 47px;
+    font-size: .7em;
+}
+.chart-container.xsmall .avcd-cart-macronutrient-content .avcd-macronutrients-stats.stats-score {
+    padding-top: 37px;
+    font-size: .7em;
+}
+.avcd-cart-macronutrient .avcd-macronutrients-stats.stats-score .avcd-percentage,
+.avcd-cart-fat .avcd-macronutrients-stats.stats-score .avcd-percentage {
+    font-size: 2.6em;
+}
+.avcd-macronutrients-stats label {
+    width: 50px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 10px;
+}
+.avcd-macronutrients-stats span {
+    width: 37px;
+    text-align: left;
+    display: inline-block;
+}
+.avcd-macronutrients-stats div.grow {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-fat.grow label,
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-fat.grow span {
+    color: #93a8f5;
+}
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-carbs.grow label,
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-carbs.grow span {
+    color: #77d4cd;
+}
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-proteins.grow label,
+.avcd-macronutrients-stats div.avcd-macronutrients-stats-proteins.grow span {
+    color: #93ccf5;
+}
+.avcd-cart-macronutrients .avcd-cart-macronutrients-head .avcd-modal-header {
+    padding: 15px;
+    padding-bottom: 0;
+}
+.avcd-cart-macronutrient .avcd-cart-macronutrient-head .avcd-modal-header {
+    padding: 15px;
+}
+.avcd-cart-macronutrient .avcd-box-pie {
+    width: 40%;
+    float: left;
+}
+.avcd-cart-macronutrient .avcd-modal-macronutrient-hint {
+    padding-bottom: 30px;
+}
+.avcd-cart-macronutrient .avcd-modal-macronutrient-hint,
+.avcd-cart-macronutrient .avcd-modal-macronutrient-advice {
+    padding-right: 15px;
+    margin-left: 40%;
+}
+.avcd-cart-macronutrient .avcd-modal-macronutrient-advice {
+    padding-top: 15px;
+}
+.avcd-cart-macronutrients .avcd-cart-macronutrient-mini .avcd-modal-header i {
+    cursor: pointer;
+    color: #cee3da;
+}
+.avcd-cart-macronutrients .avcd-cart-macronutrient-mini .avcd-advice-text {
+    padding-bottom: 20px;
+}
+.avcd-cart-macronutrients .avcd-modal-content-third {
+    padding-top: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 45px;
+}
+.avcd-cart-macronutrient-content {
+    padding-bottom: 30px;
+}
+
+/**
+ * Progress bar
+ */
+.avcd-cart-micronutrient-mini table {
+  width: 100%;
+  font-size: 1.3em;
+}
+.chart-container.small .avcd-cart-micronutrient-mini table,
+.chart-container.xsmall .avcd-cart-micronutrient-mini table {
+  font-size: 1em;
+}
+.avcd-cart-micronutrient-mini table .label-micronutrient {
+  width: 130px;
+  text-align: right;
+  padding-right: 10px;
+}
+.chart-container.small .avcd-cart-micronutrient-mini table .label-micronutrient,
+.chart-container.xsmall .avcd-cart-micronutrient-mini table .label-micronutrient {
+  width: 100px;
+}
+.percent-progress {
+  /*width: 50%;*/
+  /*width: 300px;
+  margin: 30px auto 0;*/
+  vertical-align: middle;
+}
+.percent-string {
+  width: 85px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.chart-container.small .percent-string,
+.chart-container.xsmall .percent-string {
+  width: 50px;
+  font-weight: 400;
+  font-size: 1.2em;
+}
+
+.percent-progress .progress {
+  overflow: hidden;
+  height: 8px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+}
+
+.chart-container.small .percent-progress .progress,
+.chart-container.xsmall .percent-progress .progress {
+  height: 5px;
+}
+
+.percent-progress .progress .bar {
+  height: 18px;
+  background-color: #CFE3DA;
+  -webkit-transition: width 0.6s ease;
+  -moz-transition: width 0.6s ease;
+  -ms-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+}
+/*.percent-progress .progress.success .bar {
+    background-color: #a6dc7c;
+}
+.percent-progress .progress.warning .bar {
+    background-color: #f0ad4e;
+}
+.percent-progress .progress.danger .bar {
+    background-color: #ff7c68;
+}*/
+.percent-progress .progress .bar.width-00 {
+  width: 00%;
+}
+.percent-progress .progress .bar.width-5 {
+  width: 5%;
+}
+.percent-progress .progress .bar.width-10 {
+  width: 10%;
+}
+.percent-progress .progress .bar.width-15 {
+  width: 15%;
+}
+.percent-progress .progress .bar.width-20 {
+  width: 20%;
+}
+.percent-progress .progress .bar.width-25 {
+  width: 25%;
+}
+.percent-progress .progress .bar.width-30 {
+  width: 30%;
+}
+.percent-progress .progress .bar.width-35 {
+  width: 35%;
+}
+.percent-progress .progress .bar.width-40 {
+  width: 40%;
+}
+.percent-progress .progress .bar.width-45 {
+  width: 45%;
+}
+.percent-progress .progress .bar.width-50 {
+  width: 50%;
+}
+.percent-progress .progress .bar.width-55 {
+  width: 55%;
+}
+.percent-progress .progress .bar.width-60 {
+  width: 60%;
+}
+.percent-progress .progress .bar.width-65 {
+  width: 65%;
+}
+.percent-progress .progress .bar.width-70 {
+  width: 70%;
+}
+.percent-progress .progress .bar.width-75 {
+  width: 75%;
+}
+.percent-progress .progress .bar.width-80 {
+  width: 80%;
+}
+.percent-progress .progress .bar.width-85 {
+  width: 85%;
+}
+.percent-progress .progress .bar.width-90 {
+  width: 90%;
+}
+.percent-progress .progress .bar.width-95 {
+  width: 95%;
+}
+.percent-progress .progress .bar.width-100 {
+  width: 100%;
+}
+
+/**
+ * Handle sizes
+ */
+@media (max-width:767px) {
+    .avcd-toolbar .avcd-cart-head .avcd-cart-score {
+        width: 120px;
+    }
+    .avcd-toolbar .avcd-cart-infos {
+        width: 285px;
+    }
+    .avcd-toolbar .avcd-cart-action {
+        width: 160px;
+    }
+}
+@media (min-width:768px) and (max-width:991px) {
+    .avcd-toolbar .avcd-cart-head .avcd-cart-score {
+        width: 120px;
+    }
+    .avcd-toolbar .avcd-cart-infos {
+        width: 285px;
+    }
+    .avcd-toolbar .avcd-cart-action {
+        width: 160px;
+    }
+}
+@media (min-width: 992px) {
+    .avcd-toolbar .avcd-cart-head .avcd-cart-score {
+        width: 160px;
+    }
+    .avcd-toolbar .avcd-cart-infos {
+        width: 500px;
+    }
+    .avcd-toolbar .avcd-cart-action {
+        width: 200px;
+    }
+}

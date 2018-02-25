@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<dataset>
+    <user id="3"
+        username="lorem_example_com"
+        password_hash="$2y$13$pGKdei7.YWwkwRuaTo5dcezCRHsSmQJmSYVS/z0gYyEHz4ItnYiXK"
+        password_reset_token="XXXXXXXXXXXXXXXX"
+        autologin_token="XXXXXXXXXXXXXXXX"
+        email="lorem@example.com"
+        activkey="XXXXXXXXXXXXXXXX"
+        status="1"
+        ip="0.0.0.0"
+        created_at="2017-12-04 17:15:23"
+        updated_at="2017-12-04 17:15:23"
+        confirmation="0"
+        auth_key="XXXXXXXXXXXXXXXX"
+        locale="fr"
+    />
+</dataset>
